@@ -39,6 +39,7 @@
 //     }
 // }
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem; // <-- Foarte important: aducem noul sistem
 
@@ -50,6 +51,14 @@ public class HoleMovement : MonoBehaviour
     [Header("Limite (Limitele Hărții)")]
     public float limitX = 9f;
     public float limitZ = 9f;
+
+    private float originalSpeed;
+
+    void Start()
+    {
+        // Memorăm viteza de bază la începutul jocului
+        originalSpeed = moveSpeed;
+    }
 
     void Update()
     {
@@ -88,5 +97,19 @@ public class HoleMovement : MonoBehaviour
         newPosition.y = transform.position.y;
 
         transform.position = newPosition;
+    }
+
+    public void ActivateSpeedBoost(float multiplier, float duration)
+    {
+        StartCoroutine(SpeedBoostRoutine(multiplier, duration));
+    }
+
+    private IEnumerator SpeedBoostRoutine(float multiplier, float duration)
+    {
+        moveSpeed = originalSpeed * multiplier; // Creștem viteza
+        
+        yield return new WaitForSeconds(duration); // Așteptăm 'duration' secunde
+        
+        moveSpeed = originalSpeed; // O readucem la normal
     }
 }

@@ -15,6 +15,7 @@ Shader "Custom/DarkVoid"
         {
             // Ignorăm complet sistemul de lumini din Unity
             Lighting Off
+            Cull Off
             
             CGPROGRAM
             #pragma vertex vert
